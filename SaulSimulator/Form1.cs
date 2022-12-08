@@ -1,4 +1,5 @@
 using System.Media;
+using System.Resources;
 
 namespace FinalExam
 {
@@ -7,6 +8,22 @@ namespace FinalExam
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Form1() => InitializeComponent();
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+        // ========
+        // Declare Assets:
+        // This will also prevent memory leaking if ran in a loop!
+        Bitmap picBestGame = SaulSimulator.Properties.Resources.BestGame;
+        Bitmap picClipboard = SaulSimulator.Properties.Resources.cipboard;
+        Bitmap picCourt1 = SaulSimulator.Properties.Resources.court1;
+        Bitmap picCourtFinal = SaulSimulator.Properties.Resources.courtfinal;
+        Bitmap picJail = SaulSimulator.Properties.Resources.jail;
+        Bitmap picLawyerAd = SaulSimulator.Properties.Resources.lawyerad;
+        Bitmap picSaul = SaulSimulator.Properties.Resources.saul;
+        Bitmap picSaulArgument = SaulSimulator.Properties.Resources.saulargument;
+        Bitmap picSaulFinal = SaulSimulator.Properties.Resources.saulfinal;
+        Bitmap picSaulGif = SaulSimulator.Properties.Resources.saulgif;
+        // Try getting sound in here too!
+        // ========
 
         bool AutoScene = false; //used to automatically change scenes
         int intSaulScene = 0; //keeps track of which saul scene we are on
@@ -22,10 +39,7 @@ namespace FinalExam
             Form1_Resize(sender, e);
         }
         public SoundPlayer Player { get; set; }
-        /// <summary>
-        ///  Play a new sound.
-        /// </summary>
-        /// <param name="location">The bitmap of the sound resource.</param>
+        //  Play a new sound.
         public void PlaySound(UnmanagedMemoryStream location)
         {
             Player = new SoundPlayer(location);
@@ -46,35 +60,33 @@ namespace FinalExam
             intSaulScene++;
             NextSaulScene();
         }
-        /// <summary>
-        /// Changes all controls on screen to their next iteration, based on the saul scene coming up.
-        /// </summary>
+        // Changes all controls on screen to their next iteration, based on the saul scene coming up.
         public void NextSaulScene()
         {
             switch (intSaulScene)
             {
                 case (int)SaulScene.JailTime:
                     lblStoryText.Text = "You were hauled off to jail!";
-                    picBigImage.Image = Properties.Resources.jail;
-                    PlaySound(Properties.Resources.JailCloseSound);
+                    picBigImage.Image = picJail;
+                    PlaySound(SaulSimulator.Properties.Resources.JailCloseSound);
                     btnNextScene.Text = "Next Scene";
                     break;
                 case (int)SaulScene.LawyerIntro:
                     lblStoryText.Text = "I should get a lawyer... But who?";
                     lblDialogue.Visible = true;
                     lblDialogue.Text = "Hey, inmate.\nNow's the time to talk to your lawyer. \nThat is, if you have one.";
-                    PlaySound(Properties.Resources.saul_trap_remix);
+                    PlaySound(SaulSimulator.Properties.Resources.saul_trap_remix);
                     break;
                 case (int)SaulScene.LawyerAd:
                     lblStoryText.Text = "You recall a friendly voice in your head...";
                     lblDialogue.Visible = false;
-                    picBigImage.Image = Properties.Resources.lawyerad;
+                    picBigImage.Image = picLawyerAd;
                     Player.Stop();
-                    PlaySound(Properties.Resources.saulcommercial);
+                    PlaySound(SaulSimulator.Properties.Resources.saulcommercial);
                     break;
                 case (int)SaulScene.CrimeRead:
                     lblStoryText.Text = "Select all crimes that apply.";
-                    picBigImage.Image = Properties.Resources.cipboard;
+                    picBigImage.Image = picClipboard;
                     foreach (CheckBox? check in Controls.OfType<CheckBox>())
                     {
                         check.Visible = true;
@@ -96,31 +108,31 @@ namespace FinalExam
                     lblDialogue.Text += "That everything? I'll see if I can \nget you off those charges.";
                     break;
                 case (int)SaulScene.TrialPart1:
-                    PlaySound(Properties.Resources.JailOpenSound);
+                    PlaySound(SaulSimulator.Properties.Resources.JailOpenSound);
                     foreach (CheckBox? check in Controls.OfType<CheckBox>())
                     {
                         check.Visible = false;
                     }
                     lblDialogue.Text = "May it please the court...";
-                    picBigImage.Image = Properties.Resources.court1;
+                    picBigImage.Image = picCourt1;
                     break;
                 case (int)SaulScene.TrialPart2:
                     lblDialogue.Text = "As you can see from all these facts,\nmy client is innocent!";
-                    picBigImage.Image = Properties.Resources.saulargument;
+                    picBigImage.Image = picSaulArgument;
                     break;
                 case (int)SaulScene.TrialEnd:
                     lblDialogue.Text = "The court finds this case dismissed.\nDefendant is not guilty.";
-                    picBigImage.Image = Properties.Resources.courtfinal;
+                    picBigImage.Image = picCourtFinal;
                     break;
                 case (int)SaulScene.ThankingSaul:
                     lblStoryText.Visible = true;
                     lblStoryText.Text = "Your charges were dropped\nAll thanks to Saul!";
                     lblDialogue.Visible = false;
-                    picBigImage.Image = Properties.Resources.saulfinal;
+                    picBigImage.Image = picSaulFinal;
                     break;
                 case (int)SaulScene.Ending:
                     lblStoryText.Text = "Thanks for playing!";
-                    picBigImage.Image = Properties.Resources.saulgif;
+                    picBigImage.Image = picSaulGif;
                     btnNextScene.Text = "Close Game";
                     break;
                 default:
