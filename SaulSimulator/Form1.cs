@@ -22,6 +22,7 @@ namespace FinalExam
         Bitmap picSaulArgument = SaulSimulator.Properties.Resources.saulargument;
         Bitmap picSaulFinal = SaulSimulator.Properties.Resources.saulfinal;
         Bitmap picSaulGif = SaulSimulator.Properties.Resources.saulgif;
+        Bitmap picSaulPoint = SaulSimulator.Properties.Resources.saulpoint;
         // Try getting sound in here too!
         // ========
 
@@ -116,6 +117,21 @@ namespace FinalExam
                     lblDialogue.Text = "May it please the court...";
                     picBigImage.Image = picCourt1;
                     break;
+                case (int)SaulScene.TrialAssault:
+                    picBigImage.Image = picSaulPoint;
+                    if (chkAssault.Checked == true) {
+                        lblDialogue.Text = "Regarding the assault charge, my\nclient wouldnt hurt a soul, but he was\njust at the wrong place at the\nwrong time.";
+                    } else {
+                        goto case (int)SaulScene.TrialPart2;
+                    }
+                    break;
+                case (int)SaulScene.TrialTheftUnder5000:
+                    if (chkTheft.Checked == true) {
+                        lblDialogue.Text = "As for the theft under 5000,\nsuch a crime would not have\nbeen possible because my client ";
+                    } else {
+                        goto case (int)SaulScene.TrialPart2;
+                    }
+                    break;
                 case (int)SaulScene.TrialPart2:
                     lblDialogue.Text = "As you can see from all these facts,\nmy client is innocent!";
                     picBigImage.Image = picSaulArgument;
@@ -162,6 +178,17 @@ namespace FinalExam
             CrimeRead,
             Intermission,
             TrialPart1,
+            // ---
+            //added pathways:
+            TrialAssault,
+            TrialTheftUnder5000,
+            //TrialDrivingUnderInfluence,
+            //TrialRecklessEndangerment,
+            //TrialPossesion,
+            //TrialPossesionFirearms,
+            //TrialMischief,
+            //TrialManslaughter,
+            // ---
             TrialPart2,
             TrialEnd,
             ThankingSaul,
